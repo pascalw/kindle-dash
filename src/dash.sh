@@ -47,7 +47,7 @@ main_loop() {
   while true ; do
     log_battery_stats
 
-    next_wakeup_secs=$("$DIR/next-wakeup" "$REFRESH_SCHEDULE")
+    next_wakeup_secs=$("$DIR/next-wakeup" --schedule="$REFRESH_SCHEDULE" --timezone="$TIMEZONE")
 
     if [ $next_wakeup_secs -gt 3600 ]; then
       action="sleep"

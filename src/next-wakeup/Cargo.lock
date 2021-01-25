@@ -97,6 +97,7 @@ dependencies = [
  "chrono",
  "chrono-tz",
  "cron",
+ "pico-args",
 ]
 
 [[package]]
@@ -163,6 +164,12 @@ checksum = "c705f256449c60da65e11ff6626e0c16a0a0b96aaa348de61376b249bc340f41"
 dependencies = [
  "regex",
 ]
+
+[[package]]
+name = "pico-args"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d70072c20945e1ab871c472a285fc772aefd4f5407723c206242f2c6f94595d6"
 
 [[package]]
 name = "regex"

@@ -8,6 +8,7 @@ edition = "2018"
 cron = "0.7.0"
 chrono = "0.4.19"
 chrono-tz = "0.5.3"
+pico-args = "0.4.0"
 
 [[bin]]
 name = "next-wakeup"

@@ -8,7 +8,7 @@ dist/%: src/%
 	@mkdir -p $(@D)
 	@cp "$<" "$@"
 
-dist/next-wakeup:
+dist/next-wakeup: src/next-wakeup/src/**/*.rs
 	cd src/next-wakeup && cross build --release --target arm-unknown-linux-musleabi
 	cp src/next-wakeup/target/arm-unknown-linux-musleabi/release/next-wakeup dist/
 
