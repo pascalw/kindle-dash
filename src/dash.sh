@@ -3,7 +3,16 @@ DASH_PNG="$DIR/dash.png"
 REFRESH_SCHEDULE=${REFRESH_SCHEDULE:-"0 2,32 8-17 * * 2-6"}
 RTC=/sys/devices/platform/mxc_rtc.0/wakeup_enable
 
+num_refresh=0
+
 init() {
+  if [ \( -z "$TIMEZONE" \) -o \( -z "$REFRESH_SCHEDULE" \) ]; then
+    echo "Missing required configuration."
+    echo "Timezone: ${TIMEZONE:-(not set)}."
+    echo "Schedule: ${REFRESH_SCHEDLE:-(not set)}."
+    exit 1
+  fi
+
   echo "Starting dashboard with $REFRESH_SCHEDULE refresh..."
 
   /etc/init.d/framework stop
@@ -26,14 +35,26 @@ refresh_dashboard() {
   "$DIR/wait-for-wifi.sh"
 
   "$DIR/local/fetch-dashboard.sh" "$DASH_PNG"
-  /usr/sbin/eips -g "$DASH_PNG"
+
+  if [ $num_refresh -eq 4 ]; then
+    num_refresh=0
+
+    # trigger a full refresh once in every 4 refreshes, to keep the screen clean
+    echo "Full screen refresh"
+    /usr/sbin/eips -f -g "$DASH_PNG"
+  else
+    echo "Partial screen refresh"
+    /usr/sbin/eips -g "$DASH_PNG"
+  fi
+
+  num_refresh=$((num_refresh+1))
 }
 
 log_battery_stats() {
   power_state=$(lipc-get-prop -s com.lab126.powerd state)
   battery_level=$(gasgauge-info -c)
 
-  echo "$(date) Battery level: $batter_level. Power state: $power_state"
+  echo "$(date) Battery level: $battery_level. Power state: $power_state"
 }
 
 rtc_sleep() {
