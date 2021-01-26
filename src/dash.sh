@@ -1,6 +1,8 @@
 DIR="$(dirname $0)"
 DASH_PNG="$DIR/dash.png"
 REFRESH_SCHEDULE=${REFRESH_SCHEDULE:-"0 2,32 8-17 * * 2-6"}
+FULL_DISPLAY_REFRESH_RATE=${FULL_DISPLAY_REFRESH_RATE:-0}
+SLEEP_SCREEN_INTERVAL=${SLEEP_SCREEN_INTERVAL:-3600}
 RTC=/sys/devices/platform/mxc_rtc.0/wakeup_enable
 
 num_refresh=0
@@ -36,7 +38,7 @@ refresh_dashboard() {
 
   "$DIR/local/fetch-dashboard.sh" "$DASH_PNG"
 
-  if [ $num_refresh -eq 4 ]; then
+  if [ $num_refresh -eq $FULL_DISPLAY_REFRESH_RATE ]; then
     num_refresh=0
 
     # trigger a full refresh once in every 4 refreshes, to keep the screen clean
@@ -70,7 +72,7 @@ main_loop() {
 
     next_wakeup_secs=$("$DIR/next-wakeup" --schedule="$REFRESH_SCHEDULE" --timezone="$TIMEZONE")
 
-    if [ $next_wakeup_secs -gt 3600 ]; then
+    if [ $next_wakeup_secs -gt $SLEEP_SCREEN_INTERVAL ]; then
       action="sleep"
       prepare_sleep
     else
