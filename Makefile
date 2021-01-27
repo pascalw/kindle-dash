@@ -21,7 +21,7 @@ dist/ht: src/third_party/ht/src/**/*.rs
 	cp src/third_party/ht/target/arm-unknown-linux-musleabi/release/ht dist/
 
 clean:
-	find dist ! -name 'ht' ! -name next-wakeup -type f -exec rm {} +
+	rm -r dist/*
 
 watch:
 	watchexec -w src/ -p -- make
