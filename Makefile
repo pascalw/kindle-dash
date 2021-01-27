@@ -1,7 +1,7 @@
 SRC_FILES := $(shell find src -name '*.sh' -o -name '*.png')
 TARGET_FILES := $(SRC_FILES:src/%=dist/%)
 
-dist: dist/next-wakeup ${TARGET_FILES}
+dist: dist/next-wakeup dist/ht ${TARGET_FILES}
 
 dist/%: src/%
 	@echo "Copying $<"
