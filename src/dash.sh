@@ -53,10 +53,8 @@ refresh_dashboard() {
 }
 
 log_battery_stats() {
-  power_state=$(lipc-get-prop -s com.lab126.powerd state)
   battery_level=$(gasgauge-info -c)
-
-  echo "$(date) Battery level: $battery_level. Power state: $power_state"
+  echo "$(date) Battery level: $battery_level."
 }
 
 rtc_sleep() {
