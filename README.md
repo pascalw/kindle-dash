@@ -15,7 +15,7 @@ In my case I use a [dashbling](https://github.com/pascalw/dashbling) dashboard t
 ## Prerequisites
 
 * A jailbroken Kindle, with Wi-Fi configured.
-* Tested only on a Kindle 4 NT. Should work on other Kindle devics as well with minor modifications.
+* Tested only on a Kindle 4 NT. Should work on other Kindle devices as well with minor modifications.
 
 ## Installation
 
