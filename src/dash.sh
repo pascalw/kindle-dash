@@ -11,7 +11,7 @@ init() {
   if [ \( -z "$TIMEZONE" \) -o \( -z "$REFRESH_SCHEDULE" \) ]; then
     echo "Missing required configuration."
     echo "Timezone: ${TIMEZONE:-(not set)}."
-    echo "Schedule: ${REFRESH_SCHEDLE:-(not set)}."
+    echo "Schedule: ${REFRESH_SCHEDULE:-(not set)}."
     exit 1
   fi
 
