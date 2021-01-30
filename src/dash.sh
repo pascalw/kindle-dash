@@ -1,9 +1,18 @@
+DEBUG=${DEBUG:-false}
+[ $DEBUG = true ] && set -x
+
 DIR="$(dirname $0)"
 DASH_PNG="$DIR/dash.png"
+FETCH_DASHBOARD_CMD="$DIR/local/fetch-dashboard.sh"
+LOW_BATTERY_CMD="$DIR/local/low-battery.sh"
+
 REFRESH_SCHEDULE=${REFRESH_SCHEDULE:-"0 2,32 8-17 * * 2-6"}
 FULL_DISPLAY_REFRESH_RATE=${FULL_DISPLAY_REFRESH_RATE:-0}
 SLEEP_SCREEN_INTERVAL=${SLEEP_SCREEN_INTERVAL:-3600}
 RTC=/sys/devices/platform/mxc_rtc.0/wakeup_enable
+
+LOW_BATTERY_REPORTING=${LOW_BATTERY_REPORTING:-false}
+LOW_BATTERY_THRESHOLD_PERCENT=${LOW_BATTERY_THRESHOLD_PERCENT:-10}
 
 num_refresh=0
 
@@ -36,7 +45,7 @@ refresh_dashboard() {
   echo "Refreshing dashboard"
   "$DIR/wait-for-wifi.sh"
 
-  "$DIR/local/fetch-dashboard.sh" "$DASH_PNG"
+  "$FETCH_DASHBOARD_CMD" "$DASH_PNG"
 
   if [ $num_refresh -eq $FULL_DISPLAY_REFRESH_RATE ]; then
     num_refresh=0
@@ -55,13 +64,24 @@ refresh_dashboard() {
 log_battery_stats() {
   battery_level=$(gasgauge-info -c)
   echo "$(date) Battery level: $battery_level."
+
+  if [ $LOW_BATTERY_REPORTING = true ]; then
+    battery_level_numeric=${battery_level%?}
+    if [ $battery_level_numeric -le $LOW_BATTERY_THRESHOLD_PERCENT ]; then
+      "$LOW_BATTERY_CMD" $battery_level_numeric
+    fi
+  fi
 }
 
 rtc_sleep() {
   duration=$1
 
-  [ $(cat "$RTC") -eq 0 ] && echo -n "$duration" > "$RTC"
-  echo "mem" > /sys/power/state
+  if [ $DEBUG = true ]; then
+    sleep $duration
+  else
+    [ $(cat "$RTC") -eq 0 ] && echo -n "$duration" > "$RTC"
+    echo "mem" > /sys/power/state
+  fi
 }
 
 main_loop() {

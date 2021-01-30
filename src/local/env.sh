@@ -15,3 +15,6 @@ export FULL_DISPLAY_REFRESH_RATE=${FULL_DISPLAY_REFRESH_RATE:-4}
 # 'kindle is sleeping' screen. This can be useful if your schedule only runs
 # during the day, for example.
 export SLEEP_SCREEN_INTERVAL=3600
+
+export LOW_BATTERY_REPORTING=${LOW_BATTERY_REPORTING:-false}
+export LOW_BATTERY_THRESHOLD_PERCENT=10

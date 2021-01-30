@@ -1,7 +1,7 @@
 SRC_FILES := $(shell find src -name '*.sh' -o -name '*.png')
 TARGET_FILES := $(SRC_FILES:src/%=dist/%)
 
-dist: dist/next-wakeup dist/ht ${TARGET_FILES}
+dist: dist/next-wakeup dist/ht dist/local/state ${TARGET_FILES}
 
 dist/%: src/%
 	@echo "Copying $<"
@@ -19,6 +19,9 @@ dist/ht: src/third_party/ht/src/**/*.rs
 		rustembedded/cross:arm-unknown-linux-musleabi-0.2.1 \
 		/usr/local/arm-linux-musleabi/bin/strip /src/target/arm-unknown-linux-musleabi/release/ht
 	cp src/third_party/ht/target/arm-unknown-linux-musleabi/release/ht dist/
+
+dist/local/state:
+	mkdir dist/local/state
 
 clean:
 	rm -r dist/*
