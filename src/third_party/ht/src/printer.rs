@@ -163,14 +163,14 @@ impl Printer {
 
         if self.color {
             for line in colorize(&(status_line + &headers), "http", &self.theme) {
-                self.buffer.write(&line);
+                self.buffer.write_stderr(&line);
             }
-            self.buffer.write("\x1b[0m");
+            self.buffer.write_stderr("\x1b[0m");
         } else {
-            self.buffer.write(&(status_line + &headers));
+            self.buffer.write_stderr(&(status_line + &headers));
         }
 
-        self.buffer.write("\n\n");
+        self.buffer.write_stderr("\n\n");
     }
 
     pub fn print_request_body(&mut self, request: &Request) {

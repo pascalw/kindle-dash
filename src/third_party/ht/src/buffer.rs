@@ -36,6 +36,10 @@ impl Buffer {
         }
     }
 
+    pub fn write_stderr(&mut self, s: &str) {
+        eprint!("{}", &s);
+    }
+
     pub fn write_bytes(&mut self, s: &[u8]) {
         match self {
             Buffer::Redirect => std::io::stdout().write(&s).unwrap(),
