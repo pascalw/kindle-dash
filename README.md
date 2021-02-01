@@ -15,7 +15,6 @@ In my case I use a [dashbling](https://github.com/pascalw/dashbling) dashboard t
 ## Prerequisites
 
 * A jailbroken Kindle, with Wi-Fi configured.
-* An SSH server on the Kindle (via [USBNetwork](https://wiki.mobileread.com/wiki/USBNetwork))
 * Tested only on a Kindle 4 NT. Should work on other Kindle devices as well with minor modifications.
 
 ## Installation
@@ -34,7 +33,7 @@ In my case I use a [dashbling](https://github.com/pascalw/dashbling) dashboard t
 
 ## Notes
 
-* The releases contain a pre-compiled binary of the [ht](https://github.com/ducaale/ht) command-line HTTP client. This fully supports modern HTTPS crypto, wheras the built-in `curl` and `wget` commands don't (because they rely on a very old `openssl` library).
+* The releases contain a pre-compiled binary of the [ht](https://github.com/ducaale/ht) command-line HTTP client. This fully supports modern HTTPS crypto, whereas the built-in `curl` and `wget` commands don't (because they rely on a very old `openssl` library).
 
 ## Credits
 
