@@ -1,4 +1,5 @@
 SRC_FILES := $(shell find src -name '*.sh' -o -name '*.png')
+HT_SRC_FILES := $(shell find src/third_party/ht/src -name '*.rs')
 TARGET_FILES := $(SRC_FILES:src/%=dist/%)
 
 dist: dist/next-wakeup dist/ht dist/local/state ${TARGET_FILES}
@@ -15,7 +16,7 @@ dist/next-wakeup: src/next-wakeup/src/**/*.rs
 	cd src/next-wakeup && cross build --release --target arm-unknown-linux-musleabi
 	cp src/next-wakeup/target/arm-unknown-linux-musleabi/release/next-wakeup dist/
 
-dist/ht: src/third_party/ht/src/**/*.rs
+dist/ht: ${HT_SRC_FILES}
 	cd src/third_party/ht && cross build --release --target arm-unknown-linux-musleabi
 	docker run --rm \
 		-v $(shell pwd)/src/third_party/ht:/src \
