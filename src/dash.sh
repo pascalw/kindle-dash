@@ -43,7 +43,7 @@ prepare_sleep() {
 
 refresh_dashboard() {
   echo "Refreshing dashboard"
-  "$DIR/wait-for-wifi.sh"
+  "$DIR/wait-for-wifi.sh" "$WIFI_TEST_IP"
 
   "$FETCH_DASHBOARD_CMD" "$DASH_PNG"
 

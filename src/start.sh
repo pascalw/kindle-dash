@@ -1,3 +1,4 @@
+#!/usr/bin/env sh
 DEBUG=${DEBUG:-false}
 [ $DEBUG = true ] && set -x
 
