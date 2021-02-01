@@ -15,6 +15,7 @@ In my case I use a [dashbling](https://github.com/pascalw/dashbling) dashboard t
 ## Prerequisites
 
 * A jailbroken Kindle, with Wi-Fi configured.
+* An SSH server on the Kindle (via [USBNetwork](https://wiki.mobileread.com/wiki/USBNetwork))
 * Tested only on a Kindle 4 NT. Should work on other Kindle devices as well with minor modifications.
 
 ## Installation
