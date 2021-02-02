@@ -1,5 +1,6 @@
 SRC_FILES := $(shell find src -name '*.sh' -o -name '*.png')
 HT_SRC_FILES := $(shell find src/third_party/ht/src -name '*.rs')
+NEXT_WAKEUP_SRC_FILES := $(shell find src/next-wakeup/src -name '*.rs')
 TARGET_FILES := $(SRC_FILES:src/%=dist/%)
 
 dist: dist/next-wakeup dist/ht dist/local/state ${TARGET_FILES}
@@ -12,7 +13,7 @@ dist/%: src/%
 	@mkdir -p $(@D)
 	@cp "$<" "$@"
 
-dist/next-wakeup: src/next-wakeup/src/**/*.rs
+dist/next-wakeup: ${NEXT_WAKEUP_SRC_FILES}
 	cd src/next-wakeup && cross build --release --target arm-unknown-linux-musleabi
 	cp src/next-wakeup/target/arm-unknown-linux-musleabi/release/next-wakeup dist/
 
