@@ -1,11 +1,10 @@
-use cron::Schedule;
 use chrono::Utc;
 use chrono_tz::Tz;
 
 const HELP: &str = "\
 USAGE:
-  next-wakeup --schedule '0 2-32 8-18 * * 2,6' --timezone 'Europe/Amsterdam'
-  next-wakeup -s='0 2-32 8-18 * * 2,6' -tz='Europe/Amsterdam'
+  next-wakeup --schedule '2,32 8-17 * * MON-FRI' --timezone 'Europe/Amsterdam'
+  next-wakeup -s='2,32 8-17 * * MON-FRI' -tz='Europe/Amsterdam'
 
 OPTIONS:
   -tz, --timezone STRING     Timezone used to interpret the cron schedule
@@ -16,7 +15,7 @@ OPTIONS:
 #[derive(Debug)]
 struct Args {
     timezone: Tz,
-    schedule: Schedule,
+    schedule: String,
 }
 
 fn main() {
@@ -30,12 +29,10 @@ fn main() {
 
     let schedule = args.schedule;
 
-    let next = schedule.upcoming(args.timezone).take(1).next().unwrap();
-    let next_utc = next.with_timezone(&Utc);
+    let now = Utc::now().with_timezone(&args.timezone);
+    let next = cron_parser::parse(&schedule, &now).expect("Invalid cron schedule");
 
-    let now_utc = Utc::now();
-
-    let diff = next_utc - now_utc;
+    let diff = next - now;
 
     println!("{}", diff.num_seconds());
 }

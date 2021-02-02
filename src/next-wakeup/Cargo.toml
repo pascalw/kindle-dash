@@ -5,7 +5,7 @@ authors = ["Pascal Widdershoven <hello@pascalw.me>"]
 edition = "2018"
 
 [dependencies]
-cron = "0.7.0"
+cron-parser = "0.7.7"
 chrono = "0.4.19"
 chrono-tz = "0.5.3"
 pico-args = "0.4.0"
