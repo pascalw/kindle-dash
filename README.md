@@ -21,9 +21,20 @@ In my case I use a [dashbling](https://github.com/pascalw/dashbling) dashboard t
 ## Installation
 
 1. Download the [latest release](https://github.com/pascalw/kindle-dash/releases) on your computer and extract it.
-2. Modify `dist/local/fetch-dashboard.sh` and optionally `dist/local/env.sh`.
-3. Copy `dist/` to Kindle, for example: `rsync -vr ./dist kindle:/mnt/us/dashboard`.
+2. Modify `local/fetch-dashboard.sh` and optionally `local/env.sh`.
+3. Copy the files to the Kindle, for example: `rsync -vr ./ kindle:/mnt/us/dashboard`.
 4. Start dashboard with `/mnt/us/dashboard/start.sh`.  
+   Note that the device will go into suspend about 10-15 seconds after you start the dashboard.
+
+## Upgrading
+
+If you're running kindle-dash already and want to update to the latest version follow the following steps.
+
+1. Download the [latest release](https://github.com/pascalw/kindle-dash/releases) on your computer and extract it.
+2. Review the release notes. Some releases might require changes to files in `local/`.
+3. Copy the files to the Kindle, excluding the `local` directory. For example: `rsync -vur --exclude=local ./ kindle:/mnt/us/dashboard`.
+4. Modify files in `/mnt/us/dashboard/local` if applicable.
+5. Start dashboard with `/mnt/us/dashboard/start.sh`.  
    Note that the device will go into suspend about 10-15 seconds after you start the dashboard.
 
 ## How this works
