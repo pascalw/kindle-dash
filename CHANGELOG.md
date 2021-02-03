@@ -6,10 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.0.0-beta.3] - 2020-02-03
+
 ### Changed
 
 - Use 1.1.1.1 as default Wi-Fi test ip
-- Use a more standards-compliant cron parser
+- Use a more standards-compliant cron parser (BREAKING)
 
 ### Added
 

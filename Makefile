@@ -3,6 +3,9 @@ TARGET_FILES := $(SRC_FILES:src/%=dist/%)
 
 dist: dist/next-wakeup dist/ht dist/local/state ${TARGET_FILES}
 
+tarball: dist
+	tar -C dist -cvzf kindle-dash-${VERSION}.tgz ./
+
 dist/%: src/%
 	@echo "Copying $<"
 	@mkdir -p $(@D)
@@ -29,4 +32,4 @@ clean:
 watch:
 	watchexec -w src/ -p -- make
 
-.PHONY: clean watch
+.PHONY: clean watch tarball
