@@ -1,10 +1,11 @@
 DIR="$(dirname $0)"
 DASH_PNG="$DIR/dash.png"
+FETCH_DASHBOARD_CMD="$DIR/local/fetch-dashboard.sh"
 
 echo "Refreshing dashboard"
 "$DIR/wait-for-wifi.sh"
 
-$(dirname $0)/ht -d -q -o "$DASH_PNG" get $1
+"$FETCH_DASHBOARD_CMD" "$DASH_PNG" $1
 
 echo "Full screen refresh"
 /usr/sbin/eips -f -g "$DASH_PNG"
