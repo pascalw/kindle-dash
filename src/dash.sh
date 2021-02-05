@@ -46,6 +46,12 @@ refresh_dashboard() {
   "$DIR/wait-for-wifi.sh" "$WIFI_TEST_IP"
 
   "$FETCH_DASHBOARD_CMD" "$DASH_PNG"
+  fetch_status=$?
+
+  if [ $fetch_status -ne 0 ]; then
+    echo "Not updating screen, fetch-dashboard returned $fetch_status"
+    return 1
+  fi
 
   if [ $num_refresh -eq $FULL_DISPLAY_REFRESH_RATE ]; then
     num_refresh=0
