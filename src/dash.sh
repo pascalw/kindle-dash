@@ -1,7 +1,8 @@
+#!/usr/bin/env sh
 DEBUG=${DEBUG:-false}
-[ $DEBUG = true ] && set -x
+[ "$DEBUG" = true ] && set -x
 
-DIR="$(dirname $0)"
+DIR="$(dirname "$0")"
 DASH_PNG="$DIR/dash.png"
 FETCH_DASHBOARD_CMD="$DIR/local/fetch-dashboard.sh"
 LOW_BATTERY_CMD="$DIR/local/low-battery.sh"
@@ -17,7 +18,7 @@ LOW_BATTERY_THRESHOLD_PERCENT=${LOW_BATTERY_THRESHOLD_PERCENT:-10}
 num_refresh=0
 
 init() {
-  if [ \( -z "$TIMEZONE" \) -o \( -z "$REFRESH_SCHEDULE" \) ]; then
+  if [ -z "$TIMEZONE" ] || [ -z "$REFRESH_SCHEDULE" ]; then
     echo "Missing required configuration."
     echo "Timezone: ${TIMEZONE:-(not set)}."
     echo "Schedule: ${REFRESH_SCHEDULE:-(not set)}."
@@ -48,12 +49,12 @@ refresh_dashboard() {
   "$FETCH_DASHBOARD_CMD" "$DASH_PNG"
   fetch_status=$?
 
-  if [ $fetch_status -ne 0 ]; then
+  if [ "$fetch_status" -ne 0 ]; then
     echo "Not updating screen, fetch-dashboard returned $fetch_status"
     return 1
   fi
 
-  if [ $num_refresh -eq $FULL_DISPLAY_REFRESH_RATE ]; then
+  if [ "$num_refresh" -eq "$FULL_DISPLAY_REFRESH_RATE" ]; then
     num_refresh=0
 
     # trigger a full refresh once in every 4 refreshes, to keep the screen clean
@@ -71,10 +72,10 @@ log_battery_stats() {
   battery_level=$(gasgauge-info -c)
   echo "$(date) Battery level: $battery_level."
 
-  if [ $LOW_BATTERY_REPORTING = true ]; then
+  if [ "$LOW_BATTERY_REPORTING" = true ]; then
     battery_level_numeric=${battery_level%?}
-    if [ $battery_level_numeric -le $LOW_BATTERY_THRESHOLD_PERCENT ]; then
-      "$LOW_BATTERY_CMD" $battery_level_numeric
+    if [ "$battery_level_numeric" -le "$LOW_BATTERY_THRESHOLD_PERCENT" ]; then
+      "$LOW_BATTERY_CMD" "$battery_level_numeric"
     fi
   fi
 }
@@ -82,10 +83,11 @@ log_battery_stats() {
 rtc_sleep() {
   duration=$1
 
-  if [ $DEBUG = true ]; then
-    sleep $duration
+  if [ "$DEBUG" = true ]; then
+    sleep "$duration"
   else
-    [ $(cat "$RTC") -eq 0 ] && echo -n "$duration" > "$RTC"
+    # shellcheck disable=SC2039
+    [ "$(cat "$RTC")" -eq 0 ] && echo -n "$duration" > "$RTC"
     echo "mem" > /sys/power/state
   fi
 }
@@ -96,7 +98,7 @@ main_loop() {
 
     next_wakeup_secs=$("$DIR/next-wakeup" --schedule="$REFRESH_SCHEDULE" --timezone="$TIMEZONE")
 
-    if [ $next_wakeup_secs -gt $SLEEP_SCREEN_INTERVAL ]; then
+    if [ "$next_wakeup_secs" -gt "$SLEEP_SCREEN_INTERVAL" ]; then
       action="sleep"
       prepare_sleep
     else
@@ -109,7 +111,7 @@ main_loop() {
 
     echo "Going to $action, next wakeup in ${next_wakeup_secs}s"
 
-    rtc_sleep $next_wakeup_secs
+    rtc_sleep "$next_wakeup_secs"
   done
 }
 

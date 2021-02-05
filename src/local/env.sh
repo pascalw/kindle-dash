@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 # Export environment variables here
 export WIFI_TEST_IP=${WIFI_TEST_IP:-1.1.1.1}
 export REFRESH_SCHEDULE=${REFRESH_SCHEDULE:-"2,32 8-17 * * MON-FRI"}
