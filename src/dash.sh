@@ -40,6 +40,9 @@ prepare_sleep() {
   
   # Give screen time to refresh
   sleep 2
+
+  # Ensure a full screen refresh is triggered after wake from sleep
+  num_refresh=$FULL_DISPLAY_REFRESH_RATE
 }
 
 refresh_dashboard() {
