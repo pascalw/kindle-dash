@@ -37,4 +37,7 @@ clean:
 watch:
 	watchexec -w src/ -p -- make
 
-.PHONY: clean watch tarball
+format:
+	shfmt -i 2 -w -l src/**/*.sh
+
+.PHONY: clean watch tarball format

@@ -28,8 +28,8 @@ init() {
   echo "Starting dashboard with $REFRESH_SCHEDULE refresh..."
 
   /etc/init.d/framework stop
-  initctl stop webreader > /dev/null 2>&1
-  echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+  initctl stop webreader >/dev/null 2>&1
+  echo powersave >/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
   lipc-set-prop com.lab126.powerd preventScreenSaver 1
 }
 
@@ -37,7 +37,7 @@ prepare_sleep() {
   echo "Preparing sleep"
 
   /usr/sbin/eips -f -g "$DIR/sleeping.png"
-  
+
   # Give screen time to refresh
   sleep 2
 
@@ -68,7 +68,7 @@ refresh_dashboard() {
     /usr/sbin/eips -g "$DASH_PNG"
   fi
 
-  num_refresh=$((num_refresh+1))
+  num_refresh=$((num_refresh + 1))
 }
 
 log_battery_stats() {
@@ -90,13 +90,13 @@ rtc_sleep() {
     sleep "$duration"
   else
     # shellcheck disable=SC2039
-    [ "$(cat "$RTC")" -eq 0 ] && echo -n "$duration" > "$RTC"
-    echo "mem" > /sys/power/state
+    [ "$(cat "$RTC")" -eq 0 ] && echo -n "$duration" >"$RTC"
+    echo "mem" >/sys/power/state
   fi
 }
 
 main_loop() {
-  while true ; do
+  while true; do
     log_battery_stats
 
     next_wakeup_secs=$("$DIR/next-wakeup" --schedule="$REFRESH_SCHEDULE" --timezone="$TIMEZONE")
