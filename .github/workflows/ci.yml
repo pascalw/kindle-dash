@@ -9,12 +9,14 @@ on:
       - main
 
 jobs:
- shellcheck:
-    name: Shellcheck
+  sh-checker:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Run ShellCheck
-      uses: ludeeus/action-shellcheck@1.0.0
-      env:
-        SHELLCHECK_OPTS: -s ash
+      - uses: actions/checkout@v1
+      - name: Run sh-checker
+        uses: luizm/action-sh-checker@v0.1.12
+        env:
+          SHELLCHECK_OPTS: -s ash
+          SHFMT_OPTS: -i 2
+        with:
+          sh_checker_comment: false
