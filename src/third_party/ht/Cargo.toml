@@ -18,7 +18,7 @@ jsonxf = "1.0"
 indicatif = "0.15.0"
 lazy_static = "1.4.0"
 regex = "1"
-reqwest = { version = "0.10", default-features = false, features = ["native-tls-vendored", "stream", "json", "gzip", "brotli"] }
+reqwest = { version = "0.10", default-features = false, features = ["rustls-tls", "stream", "json", "gzip", "brotli"] }
 rpassword = "5.0.0"
 serde = "1.0"
 serde_json = "1.0"
@@ -26,8 +26,6 @@ serde_urlencoded = "0.7"
 structopt = "0.3"
 tokio = { version = "0.2", features = ["full"] }
 tokio-util = {version = "0.3", features= ["codec"]}
-openssl-probe = "0.1.2"
-openssl = { version = "0.10", features = ["vendored"] }
 
 [dependencies.syntect]
 version = "4.4"

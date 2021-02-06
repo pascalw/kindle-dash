@@ -31,7 +31,6 @@ use utils::body_from_stdin;
 
 #[tokio::main]
 async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
-    openssl_probe::init_ssl_cert_env_vars();
     let args = Cli::from_args();
 
     let request_items = RequestItems::new(args.request_items);
