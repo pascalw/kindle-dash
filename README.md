@@ -36,6 +36,12 @@ If you're running kindle-dash already and want to update to the latest version f
 4. Modify files in `/mnt/us/dashboard/local` if applicable.
 5. Start dashboard with `/mnt/us/dashboard/start.sh`.  
    Note that the device will go into suspend about 10-15 seconds after you start the dashboard.
+   
+## KUAL
+
+If you're using KUAL you can use simple extension to start this Dashboard
+
+1. Copy folder `kindle-dash` from `KUAL` folder to the kual `extensions` folder. (located in `/mnt/us/extensions`)
 
 ## How this works
 
