@@ -30,7 +30,7 @@ tmp/xh:
 	git clone --depth 1 --branch v0.16.1 https://github.com/ducaale/xh.git tmp/xh
 
 dist/local/state:
-	mkdir dist/local/state
+	mkdir -p dist/local/state
 
 clean:
 	rm -r dist/*
