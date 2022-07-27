@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.0.0-beta.4] - 2022-07-27
+
 ### Changed
 
 - Only call eips if fetch-dashboard succesfully completes
