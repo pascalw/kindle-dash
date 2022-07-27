@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Only call eips if fetch-dashboard succesfully completes
 - Ensure a full screen refresh is triggered after wake from sleep
 - Build ht from upstream sources, using rusttls instead of vendored openssl
+- Replace ht 0.4.0 with xh 0.16.1 (project was renamed)
 
 ## [v1.0.0-beta.3] - 2020-02-03
 

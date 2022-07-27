@@ -10,7 +10,7 @@ now=$(date +%s)
 
 if [ "$previous_report_timestamp" -eq -1 ] ||
   [ $((now - previous_report_timestamp)) -gt 86400 ]; then
-  # Replace this with for example an HTTP call via curl, or ht
+  # Replace this with for example an HTTP call via curl, or xh
   echo "Reporting low battery: $battery_level_percentage%"
 
   echo "$now" >"$last_battery_report_state"

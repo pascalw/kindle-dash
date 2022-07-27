@@ -2,7 +2,7 @@ SRC_FILES := $(shell find src -name '*.sh' -o -name '*.png')
 NEXT_WAKEUP_SRC_FILES := $(shell find src/next-wakeup/src -name '*.rs')
 TARGET_FILES := $(SRC_FILES:src/%=dist/%)
 
-dist: dist/next-wakeup dist/ht dist/local/state ${TARGET_FILES}
+dist: dist/next-wakeup dist/xh dist/local/state ${TARGET_FILES}
 
 tarball: dist
 	tar -C dist -cvzf kindle-dash-${VERSION}.tgz ./
@@ -16,17 +16,17 @@ dist/next-wakeup: ${NEXT_WAKEUP_SRC_FILES}
 	cd src/next-wakeup && cross build --release --target arm-unknown-linux-musleabi
 	cp src/next-wakeup/target/arm-unknown-linux-musleabi/release/next-wakeup dist/
 
-dist/ht: tmp/ht
-	cd tmp/ht && cross build --release --target arm-unknown-linux-musleabi
+dist/xh: tmp/xh
+	cd tmp/xh && cross build --release --target arm-unknown-linux-musleabi
 	docker run --rm \
-		-v $(shell pwd)/tmp/ht:/src \
+		-v $(shell pwd)/tmp/xh:/src \
 		rustembedded/cross:arm-unknown-linux-musleabi-0.2.1 \
-		/usr/local/arm-linux-musleabi/bin/strip /src/target/arm-unknown-linux-musleabi/release/ht
-	cp tmp/ht/target/arm-unknown-linux-musleabi/release/ht dist/
+		/usr/local/arm-linux-musleabi/bin/strip /src/target/arm-unknown-linux-musleabi/release/xh
+	cp tmp/xh/target/arm-unknown-linux-musleabi/release/xh dist/
 
-tmp/ht:
+tmp/xh:
 	mkdir -p tmp/
-	git clone --depth 1 --branch v0.4.0 https://github.com/ducaale/ht.git tmp/ht
+	git clone --depth 1 --branch v0.16.1 https://github.com/ducaale/xh.git tmp/xh
 
 dist/local/state:
 	mkdir dist/local/state
