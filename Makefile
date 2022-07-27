@@ -1,3 +1,4 @@
+VERSION := v1.0.0-beta.4
 SRC_FILES := $(shell find src -name '*.sh' -o -name '*.png')
 NEXT_WAKEUP_SRC_FILES := $(shell find src/next-wakeup/src -name '*.rs')
 TARGET_FILES := $(SRC_FILES:src/%=dist/%)
