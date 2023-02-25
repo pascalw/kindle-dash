@@ -27,7 +27,11 @@ init() {
 
   echo "Starting dashboard with $REFRESH_SCHEDULE refresh..."
 
-  /etc/init.d/framework stop
+  if [ -f /etc/init.d/framework ]; then
+    /etc/init.d/framework stop
+  else
+    /etc/init/framework stop
+  fi
   initctl stop webreader >/dev/null 2>&1
   echo powersave >/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
   lipc-set-prop com.lab126.powerd preventScreenSaver 1
