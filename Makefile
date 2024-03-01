@@ -56,10 +56,8 @@ format:
 
 .PHONY: clean watch tarball format
 
-# SCP target
-# echo | command to simulate enter when prompted for password
-# echo | scp -P 2222 ./src root@192.168.3.103:/mnt/us/dashboard/
+# It will always ask for prompt even with password disabled, so we just send an enter.
 scp:
 	@echo "Usage: make scp source_files=<source_files>"
 	@echo "       Transfer files to remote host using scp"
-	echo | scp -P $(PORT) $(source_files) $(REMOTE_HOST):$(REMOTE_DIR)
+	expect -c 'spawn scp -P $(PORT) $(source_files) $(REMOTE_HOST):$(REMOTE_DIR); expect "*assword:" { send "\r" }; interact'
