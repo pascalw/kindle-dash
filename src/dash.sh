@@ -3,7 +3,7 @@ DEBUG=${DEBUG:-false}
 [ "$DEBUG" = true ] && set -x
 
 DIR="$(dirname "$0")"
-source logging.sh
+source ./logging.sh
 
 DASH_PNG="$DIR/dash.png"
 FETCH_DASHBOARD_CMD="$DIR/local/fetch-dashboard.sh"

@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 test_ip=$1
 
-source logging.sh
+source ./logging.sh
 
 if [ -z "$test_ip" ]; then
   log -l ERROR "No test ip specified"
