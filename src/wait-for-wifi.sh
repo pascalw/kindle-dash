@@ -1,8 +1,10 @@
 #!/usr/bin/env sh
 test_ip=$1
 
+source logging.sh
+
 if [ -z "$test_ip" ]; then
-  echo "No test ip specified"
+  log -l ERROR "No test ip specified"
   exit 1
 fi
 
@@ -14,7 +16,7 @@ wait_for_wifi() {
 
   # shellcheck disable=SC2181
   while [ $? -ne 0 ]; do
-    [ $counter -eq $max_retry ] && echo "Couldn't connect to Wi-Fi" && exit 1
+    [ $counter -eq $max_retry ] && log -l ERROR "Couldn't connect to Wi-Fi" && exit 1
     counter=$((counter + 1))
 
     sleep 1
@@ -23,4 +25,4 @@ wait_for_wifi() {
 }
 
 wait_for_wifi
-echo "Wi-Fi connected"
+log "Wi-Fi connected"

@@ -3,6 +3,8 @@ DEBUG=${DEBUG:-false}
 [ "$DEBUG" = true ] && set -x
 
 DIR="$(dirname "$0")"
+source logging.sh
+
 DASH_PNG="$DIR/dash.png"
 FETCH_DASHBOARD_CMD="$DIR/local/fetch-dashboard.sh"
 LOW_BATTERY_CMD="$DIR/local/low-battery.sh"
@@ -19,13 +21,13 @@ num_refresh=0
 
 init() {
   if [ -z "$TIMEZONE" ] || [ -z "$REFRESH_SCHEDULE" ]; then
-    echo "Missing required configuration."
-    echo "Timezone: ${TIMEZONE:-(not set)}."
-    echo "Schedule: ${REFRESH_SCHEDULE:-(not set)}."
+    log -l ERROR "Missing required configuration."
+    log  "Timezone: ${TIMEZONE:-(not set)}."
+    log "Schedule: ${REFRESH_SCHEDULE:-(not set)}."
     exit 1
   fi
-
-  echo "Starting dashboard with $REFRESH_SCHEDULE refresh..."
+  
+  log "Starting dashboard with $REFRESH_SCHEDULE refresh..."
 
   /etc/init.d/framework stop
   initctl stop webreader >/dev/null 2>&1
@@ -34,7 +36,7 @@ init() {
 }
 
 prepare_sleep() {
-  echo "Preparing sleep"
+  log "Preparing sleep"
 
   /usr/sbin/eips -f -g "$DIR/sleeping.png"
 
@@ -46,14 +48,14 @@ prepare_sleep() {
 }
 
 refresh_dashboard() {
-  echo "Refreshing dashboard"
+  log "Refreshing dashboard"
   "$DIR/wait-for-wifi.sh" "$WIFI_TEST_IP"
 
   "$FETCH_DASHBOARD_CMD" "$DASH_PNG"
   fetch_status=$?
 
   if [ "$fetch_status" -ne 0 ]; then
-    echo "Not updating screen, fetch-dashboard returned $fetch_status"
+    log "Not updating screen, fetch-dashboard returned $fetch_status"
     return 1
   fi
 
@@ -61,10 +63,10 @@ refresh_dashboard() {
     num_refresh=0
 
     # trigger a full refresh once in every 4 refreshes, to keep the screen clean
-    echo "Full screen refresh"
+    log "Full screen refresh"
     /usr/sbin/eips -f -g "$DASH_PNG"
   else
-    echo "Partial screen refresh"
+    log "Partial screen refresh"
     /usr/sbin/eips -g "$DASH_PNG"
   fi
 
@@ -73,7 +75,7 @@ refresh_dashboard() {
 
 log_battery_stats() {
   battery_level=$(gasgauge-info -c)
-  echo "$(date) Battery level: $battery_level."
+  log "$(date) Battery level: $battery_level."
 
   if [ "$LOW_BATTERY_REPORTING" = true ]; then
     battery_level_numeric=${battery_level%?}
@@ -112,7 +114,7 @@ main_loop() {
     # take a bit of time before going to sleep, so this process can be aborted
     sleep 10
 
-    echo "Going to $action, next wakeup in ${next_wakeup_secs}s"
+    log "Going to $action, next wakeup in ${next_wakeup_secs}s"
 
     rtc_sleep "$next_wakeup_secs"
   done
