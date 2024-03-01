@@ -56,8 +56,14 @@ format:
 
 .PHONY: clean watch tarball format
 
-# It will always ask for prompt even with password disabled, so we just send an enter.
-scp:
+# KOReader's ssh server will always ask for prompt even with password disabled, so we use expect to send an enter.
+push-files:
 	@echo "Usage: make scp source_files=<source_files>"
 	@echo "       Transfer files to remote host using scp"
 	expect -c 'spawn scp -P $(PORT) $(source_files) $(REMOTE_HOST):$(REMOTE_DIR); expect "*assword:" { send "\r" }; interact'
+
+ssh:
+	expect -c 'spawn ssh -p $(PORT) $(REMOTE_HOST); expect "*assword:" { send "\r" }; interact'
+
+get-logs:
+	expect -c 'spawn scp -P $(PORT) $(REMOTE_HOST):$(REMOTE_DIR)/logs/*.log ./logs; expect "*assword:" { send "\r" }; interact'
