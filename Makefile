@@ -3,6 +3,19 @@ SRC_FILES := $(shell find src -name '*.sh' -o -name '*.png')
 NEXT_WAKEUP_SRC_FILES := $(shell find src/next-wakeup/src -name '*.rs')
 TARGET_FILES := $(SRC_FILES:src/%=dist/%)
 
+# Kindle scp params
+REMOTE_HOST := root@192.168.3.103
+REMOTE_DIR := /mnt/us/dashboard/
+PORT := 2222
+
+help:
+	@echo "Usage: make <target>"
+	@echo "Targets:"
+	@awk '/^[a-zA-Z\-\_0-9]+:/ { \
+	        sub(":", "", $$1); \
+	        print "  " $$1 \
+	    }' Makefile
+
 dist: dist/next-wakeup dist/xh dist/local/state ${TARGET_FILES}
 
 tarball: dist
@@ -42,3 +55,11 @@ format:
 	shfmt -i 2 -w -l src/**/*.sh
 
 .PHONY: clean watch tarball format
+
+# SCP target
+# echo | command to simulate enter when prompted for password
+# echo | scp -P 2222 ./src root@192.168.3.103:/mnt/us/dashboard/
+scp:
+	@echo "Usage: make scp source_files=<source_files>"
+	@echo "       Transfer files to remote host using scp"
+	echo | scp -P $(PORT) $(source_files) $(REMOTE_HOST):$(REMOTE_DIR)
