@@ -75,7 +75,7 @@ refresh_dashboard() {
 
 log_battery_stats() {
   battery_level=$(gasgauge-info -c)
-  log "$(date) Battery level: $battery_level."
+  log "Battery level: $battery_level."
 
   if [ "$LOW_BATTERY_REPORTING" = true ]; then
     battery_level_numeric=${battery_level%?}

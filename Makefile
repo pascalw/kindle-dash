@@ -63,7 +63,8 @@ push-files:
 	expect -c 'spawn scp -P $(PORT) $(source_files) $(REMOTE_HOST):$(REMOTE_DIR); expect "*assword:" { send "\r" }; interact'
 
 ssh:
-	expect -c 'spawn ssh -p $(PORT) $(REMOTE_HOST); expect "*assword:" { send "\r" }; interact'
+	expect -c 'spawn ssh -p $(PORT) $(REMOTE_HOST); expect "*assword:" { send "\r" }; expect "# " { send "cd $(REMOTE_DIR)\r" }; interact'
+
 
 get-logs:
 	expect -c 'spawn scp -P $(PORT) $(REMOTE_HOST):$(REMOTE_DIR)/logs/*.log ./logs; expect "*assword:" { send "\r" }; interact'
