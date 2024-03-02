@@ -12,7 +12,8 @@ LOW_BATTERY_CMD="$DIR/local/low-battery.sh"
 REFRESH_SCHEDULE=${REFRESH_SCHEDULE:-"2,32 8-17 * * MON-FRI"}
 FULL_DISPLAY_REFRESH_RATE=${FULL_DISPLAY_REFRESH_RATE:-0}
 SLEEP_SCREEN_INTERVAL=${SLEEP_SCREEN_INTERVAL:-3600}
-RTC=/sys/devices/platform/mxc_rtc.0/wakeup_enable
+# RTC=/sys/devices/platform/mxc_rtc.0/wakeup_enable
+RTC=/sys/class/rtc/rtc1/wakealarm
 
 LOW_BATTERY_REPORTING=${LOW_BATTERY_REPORTING:-false}
 LOW_BATTERY_THRESHOLD_PERCENT=${LOW_BATTERY_THRESHOLD_PERCENT:-10}
@@ -35,7 +36,7 @@ init() {
   lipc-set-prop com.lab126.powerd preventScreenSaver 1
 }
 
-prepare_sleep() {
+display_sleep_screen() {
   log "Preparing sleep"
 
   /usr/sbin/eips -f -g "$DIR/sleeping.png"
@@ -91,9 +92,14 @@ rtc_sleep() {
   if [ "$DEBUG" = true ]; then
     sleep "$duration"
   else
-    # shellcheck disable=SC2039
-    [ "$(cat "$RTC")" -eq 0 ] && echo -n "$duration" >"$RTC"
-    echo "mem" >/sys/power/state
+    if [ -e "$RTC" ]; then  # Check if the file exists
+      content=$(cat "$RTC")  # Read the content of the file
+      log "RTC content: ${content}"
+      if [ -z "$content" ] || [ "$content" -eq 0 ]; then  # Check if content is empty or zero
+        echo -n "$duration" >"$RTC"
+        echo "mem" >/sys/power/state
+      fi
+    fi  
   fi
 }
 
@@ -105,7 +111,7 @@ main_loop() {
 
     if [ "$next_wakeup_secs" -gt "$SLEEP_SCREEN_INTERVAL" ]; then
       action="sleep"
-      prepare_sleep
+      display_sleep_screen
     else
       action="suspend"
       refresh_dashboard
