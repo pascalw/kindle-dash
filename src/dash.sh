@@ -34,6 +34,7 @@ init() {
   initctl stop webreader >/dev/null 2>&1
   echo powersave >/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
   lipc-set-prop com.lab126.powerd preventScreenSaver 1
+
 }
 
 display_sleep_screen() {
@@ -65,10 +66,10 @@ refresh_dashboard() {
 
     # trigger a full refresh once in every 4 refreshes, to keep the screen clean
     log "Full screen refresh"
-    /usr/sbin/eips -f -g "$DASH_PNG"
+    /usr/sbin/eips -f -g "$DASH_PNG" >/dev/null
   else
     log "Partial screen refresh"
-    /usr/sbin/eips -g "$DASH_PNG"
+    /usr/sbin/eips -g "$DASH_PNG" >/dev/null
   fi
 
   num_refresh=$((num_refresh + 1))
