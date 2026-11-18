@@ -12,6 +12,8 @@ This code _does not_ render the dashboard itself. It's expected that what to dis
 
 In my case I use a [dashbling](https://github.com/pascalw/dashbling) dashboard that I render into a PNG screenshot on a server. See [here](https://github.com/pascalw/kindle-dash/blob/main/docs/tipstricks.md#producing-dashboard-images-from-a-webpage) for information on how these PNGs should be produced, including some sample code.
 
+Another option if you use Home Assistant: [kindle-display](https://github.com/Josi-create/kindle-display) draws the image directly with Python and Pillow, without a browser.
+
 ## Prerequisites
 
 * A jailbroken Kindle, with Wi-Fi configured.
